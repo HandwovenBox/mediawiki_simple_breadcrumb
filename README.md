@@ -19,6 +19,8 @@ The tag can be used in templates and accepts variables.
 
 You should not add more than one breadcrumb tag in each page. In experimentation, if there are two breadcrumb tags, the second one is the one that is effective, but this behavior is not tested.
 
+The extension adds the class "breadcrumbs-page" to the <body> tag on pages where the parser tag is used. This allows the use of CSS styles for such pages (for example, to suppress subpage breadcrumbs only on those pages). 
+
 
 Installation
 ------------
