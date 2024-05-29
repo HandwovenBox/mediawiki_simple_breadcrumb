@@ -72,6 +72,10 @@ class Hooks {
 		// Add this page to cache
 		self::saveToBreadcrumbCache($pagedata);
 		
+		//Save in the parser that the parserfunction has been invoked
+		$parserOutput = $parser->getOutput();
+		$parserOutput->setExtensionData('breadcrumbParserCalled', true);
+		
 		//if no parent page is supplied, this is the top level and we don't want to display the breadcrumb.
 		if (empty($parentPageTitle)) {
 			return '';
@@ -104,7 +108,6 @@ class Hooks {
 		self::$breadcrumb = array_reverse($breadcrumbList, true);
 
 		// Render the generated breadcrumb and save to the parser
-		$parserOutput = $parser->getOutput();
 		$outputString = self::render();
 		$parserOutput->setExtensionData('simplebreadcrumb', $outputString);
 		return '';
@@ -281,11 +284,16 @@ class Hooks {
 	 * @param ParserOutput $parserOutput
 	 * @return bool
 	 */
-	public static function onOutputPageParserOutput( OutputPage $out, ParserOutput $parserOutput ) {		
+	public static function onOutputPageParserOutput( OutputPage $out, ParserOutput $parserOutput ) {
 		$breadcrumbHtmlString = $parserOutput->getExtensionData( 'simplebreadcrumb' );
-		if(!empty($breadcrumbHtmlString)) {//If there's no breadcrumb for this page, don't do anything
+		$breadcrumbParserCalled = $parserOutput->getExtensionData( 'breadcrumbParserCalled' );
+
+		if(!empty($breadcrumbHtmlString)) {//If there's no breadcrumb for this page, don't output one
 			// Add the breadcrumb html string
 			$out->addSubtitle( $breadcrumbHtmlString );
+		}
+		if( $breadcrumbParserCalled ) { //If parserfunction was used, add this class to the <body> so CSS can target relevant pages.
+			$out->addBodyClasses( 'breadcrumbs-page' );
 		}
 		return true;
 	}
@@ -323,7 +331,6 @@ class Hooks {
 				'parent_title' => $pagedata['parentTitle']
 			]
 		);
-
 	}
 
 	/**
