@@ -28,6 +28,7 @@ Edit LocalSettings.php to include the extension:
 	// Simple Breadcrumb
 	wfLoadExtension( 'SimpleBreadcrumb' );
 
+Run the update script, which will automatically create the necessary database tables that this extension needs.
 
 Configuration
 -------------
