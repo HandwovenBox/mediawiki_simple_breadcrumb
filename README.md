@@ -19,9 +19,6 @@ The tag can be used in templates and accepts variables.
 
 You should not add more than one breadcrumb tag in each page. In experimentation, if there are two breadcrumb tags, the second one is the one that is effective, but this behavior is not tested.
 
-The extension adds the class "breadcrumbs-page" to the <body> tag on pages where the parser tag is used. This allows the use of CSS styles for such pages (for example, to suppress subpage breadcrumbs only on those pages). 
-
-
 Installation
 ------------
 
@@ -40,3 +37,10 @@ The extension offers these configuration variables that can be overriden in Loca
 	$wgbcdelimiter            = ' &gt; ';     // Breadcrumb delimiter string
 	$wgbcMaxCount             = 5;            // Maximum elements in breadcrumb
 	$wgbcOverflowPrefix       = '&hellip;';   // Prefix when breadcrumb has more elements than fixed limit
+
+The extension adds the class "breadcrumbs-page" to the <body> tag on pages where the parser tag is used. This allows the use of CSS styles for such pages (for example, to suppress **subpage** breadcrumbs on only those pages where this extension is invoked). To do so, the following could be added to Mediawiki:Common.css. 
+
+	/* Hide parent breadcrumbs on subpages*/
+	.breadcrumbs-page .subpages { 
+	display: none !important;
+	}
